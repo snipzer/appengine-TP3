@@ -3,10 +3,13 @@ package com.zenika.zencontact.resource;
 import com.zenika.zencontact.domain.User;
 import com.zenika.zencontact.domain.blob.PhotoService;
 import com.zenika.zencontact.persistence.UserRepository;
+import com.zenika.zencontact.persistence.memcache.CacheService;
 import com.zenika.zencontact.persistence.objectify.UserDaoObjectify;
 import com.google.gson.Gson;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
+import com.zenika.zencontact.util.StringUtil;
+
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -44,6 +47,7 @@ public class UserResourceWithId extends HttpServlet {
   @Override
   public void doPut(HttpServletRequest request, HttpServletResponse response)
       throws IOException {
+    CacheService.getINSTANCE().delete(StringUtil.CONTACTS_CACHE_KEY);
     Long id = getId(request);
     if(id == null) {
         response.setStatus(404);
@@ -58,6 +62,7 @@ public class UserResourceWithId extends HttpServlet {
   @Override
   public void doDelete(HttpServletRequest request, HttpServletResponse response)
       throws IOException {
+    CacheService.getINSTANCE().delete(StringUtil.CONTACTS_CACHE_KEY);
     Long id = getId(request);
     if(id == null) {
         response.setStatus(404);
