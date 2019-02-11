@@ -15,19 +15,15 @@ public class UserDaoObjectify implements UserDao {
     }
 
     public long save(User contact) {
-        return ObjectifyService.ofy().save()
-            .entity(contact).now().getId();
+        return ObjectifyService.ofy().save().entity(contact).now().getId();
     }
     public void delete(Long id) {
-        ObjectifyService.ofy().delete()
-            .key(Key.create(User.class, id)).now();
+        ObjectifyService.ofy().delete().key(Key.create(User.class, id)).now();
     }
     public User get(Long id) {
-        return ObjectifyService.ofy().load()
-            .key(Key.create(User.class, id)).now();
+        return ObjectifyService.ofy().load().key(Key.create(User.class, id)).now();
     }
     public List<User> getAll() {
-        return ObjectifyService.ofy().load()
-            .type(User.class).list();
+        return ObjectifyService.ofy().load().type(User.class).list();
     }
 }

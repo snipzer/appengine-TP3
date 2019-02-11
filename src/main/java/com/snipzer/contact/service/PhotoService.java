@@ -43,8 +43,7 @@ public class PhotoService {
             Iterator<String> names = uploads.keySet().iterator();
             String name = names.next();
             List<BlobKey> keys = uploads.get(name);
-            User contact = UserDaoObjectify.getInstance().get(id)
-                    .photoKey(keys.get(0));
+            User contact = UserDaoObjectify.getInstance().get(id).photoKey(keys.get(0));
             UserDaoObjectify.getInstance().save(contact);
         }
     }

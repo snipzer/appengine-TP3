@@ -19,7 +19,7 @@ public class UserWithIdController extends HttpServlet {
 
   private Long getId(HttpServletRequest request) {
     String pathInfo = request.getPathInfo();
-    String[] pathParts = pathInfo.split("/");
+    String[] pathParts = pathInfo.split(StringUtil.SLASH);
     if(pathParts.length == 0) {
         return null;
     }
