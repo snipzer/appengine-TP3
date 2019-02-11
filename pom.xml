@@ -21,8 +21,8 @@ limitations under the License.
   <!-- REQUIRED : your application must be packed as a .war to deploy on App Engine Standard -->
   <packaging>war</packaging>
 
-  <groupId>com.zenika</groupId>
-  <artifactId>zencontact</artifactId>
+  <groupId>com.snipzer</groupId>
+  <artifactId>snipcontact</artifactId>
   <version>1.0-SNAPSHOT</version>
 
 <!-- [START properties] -->
