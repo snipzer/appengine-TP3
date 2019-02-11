@@ -17,9 +17,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @WebFilter(urlPatterns = {"api/v0/users/*"})
-public class AuthFilter implements Filter {
+public class AuthenticationFilter implements Filter {
 
-    private static final Logger LOG = Logger.getLogger(AuthFilter.class.getName());
+    private static final Logger LOG = Logger.getLogger(AuthenticationFilter.class.getName());
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -34,11 +34,10 @@ public class AuthFilter implements Filter {
         if(pathInfo != null) {
             String[] pathParts = pathInfo.split(StringUtil.SLASH);
             //only admin can delete
-            if (req.getMethod().equals(StringUtil.DELETE) && !AuthenticationService.getInstance().isAdmin()) {
+            if (StringUtil.DELETE.equals(req.getMethod()) && !AuthenticationService.getInstance().isAdmin()) {
                 res.setStatus(403);
                 return;
             }
-
             if(AuthenticationService.getInstance().getUser() != null) {
                 res.setHeader(StringUtil.USERNAME, AuthenticationService.getInstance().getUsername());
                 res.setHeader(StringUtil.LOGOUT, AuthenticationService.getInstance().getLogoutURL(StringUtil.CLEAR));
@@ -50,7 +49,6 @@ public class AuthFilter implements Filter {
                 return;
             }
         }
-
         chain.doFilter(request, response);
     }
 
