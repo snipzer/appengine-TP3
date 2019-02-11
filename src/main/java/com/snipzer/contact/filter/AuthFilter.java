@@ -1,6 +1,7 @@
 package com.snipzer.contact.filter;
 
 import com.snipzer.contact.service.AuthenticationService;
+import com.snipzer.contact.util.StringUtil;
 
 import java.io.IOException;
 import javax.servlet.Filter;
@@ -18,37 +19,33 @@ import java.util.logging.Logger;
 @WebFilter(urlPatterns = {"api/v0/users/*"})
 public class AuthFilter implements Filter {
 
-    private static final Logger LOG = Logger.getLogger(AuthFilter.class
-            .getName());
+    private static final Logger LOG = Logger.getLogger(AuthFilter.class.getName());
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
     }
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response,
-                         FilterChain chain) throws IOException, ServletException {
-
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest req = ((HttpServletRequest)request);
         HttpServletResponse res = ((HttpServletResponse)response);
-        LOG.log(Level.INFO, "Filtre d'authentification");
-        String pathInfo = req.getPathInfo(); // /{id}
-        if(pathInfo != null) { //{id}
-            String[] pathParts = pathInfo.split("/");
+        LOG.log(Level.INFO, StringUtil.FILTRE_D_AUTHENTIFICATION);
+        String pathInfo = req.getPathInfo();
+        if(pathInfo != null) {
+            String[] pathParts = pathInfo.split(StringUtil.SLASH);
             //only admin can delete
-            if (req.getMethod() == "DELETE"
-                    && !AuthenticationService.getInstance().isAdmin()) {
+            if (req.getMethod().equals(StringUtil.DELETE) && !AuthenticationService.getInstance().isAdmin()) {
                 res.setStatus(403);
                 return;
             }
 
             if(AuthenticationService.getInstance().getUser() != null) {
-                res.setHeader("Username", AuthenticationService.getInstance().getUsername());
-                res.setHeader("Logout", AuthenticationService.getInstance().getLogoutURL("/#/clear"));
+                res.setHeader(StringUtil.USERNAME, AuthenticationService.getInstance().getUsername());
+                res.setHeader(StringUtil.LOGOUT, AuthenticationService.getInstance().getLogoutURL(StringUtil.CLEAR));
             } else {
                 //only authent users can edit
-                res.setHeader("Location", AuthenticationService.getInstance().getLoginURL("/#/edit/" + pathParts[1]));
-                res.setHeader("Logout", AuthenticationService.getInstance().getLogoutURL("/#/clear"));
+                res.setHeader(StringUtil.LOCATION, AuthenticationService.getInstance().getLoginURL(StringUtil.EDIT + pathParts[1]));
+                res.setHeader(StringUtil.LOGOUT, AuthenticationService.getInstance().getLogoutURL(StringUtil.CLEAR));
                 res.setStatus(401);
                 return;
             }
