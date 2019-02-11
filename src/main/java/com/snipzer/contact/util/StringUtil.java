@@ -1,4 +1,4 @@
-package com.zenika.zencontact.util;
+package com.snipzer.contact.util;
 
 public class StringUtil {
     public static final String CONTACTS_CACHE_KEY = "contacts_cache";

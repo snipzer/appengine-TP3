@@ -1,6 +1,6 @@
-package com.zenika.zencontact.resource;
+package com.snipzer.contact.controller;
 
-import com.zenika.zencontact.domain.Message;
+import com.snipzer.contact.entity.Message;
 import org.joda.time.DateTime;
 import com.google.gson.Gson;
 import java.io.IOException;
@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 // With @WebServlet annotation the webapp/WEB-INF/web.xml is no longer required.
-@WebServlet(name = "HelloResource", value = "/api/message")
-public class HelloResource extends HttpServlet {
+@WebServlet(name = "HelloController", value = "/api/message")
+public class HelloController extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response)

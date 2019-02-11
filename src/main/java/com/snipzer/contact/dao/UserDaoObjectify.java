@@ -1,9 +1,8 @@
-package com.zenika.zencontact.persistence.objectify;
+package com.snipzer.contact.dao;
 
-import com.google.appengine.api.blobstore.BlobKey;
 import com.googlecode.objectify.*;
-import com.zenika.zencontact.domain.User;
-import com.zenika.zencontact.persistence.UserDao;
+import com.snipzer.contact.entity.User;
+
 import java.util.List;
 
 public class UserDaoObjectify implements UserDao {

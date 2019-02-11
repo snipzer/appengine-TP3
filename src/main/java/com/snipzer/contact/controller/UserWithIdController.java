@@ -1,14 +1,11 @@
-package com.zenika.zencontact.resource;
+package com.snipzer.contact.controller;
 
-import com.zenika.zencontact.domain.User;
-import com.zenika.zencontact.domain.blob.PhotoService;
-import com.zenika.zencontact.persistence.UserRepository;
-import com.zenika.zencontact.persistence.memcache.CacheService;
-import com.zenika.zencontact.persistence.objectify.UserDaoObjectify;
+import com.snipzer.contact.dao.UserDaoObjectify;
+import com.snipzer.contact.entity.User;
+import com.snipzer.contact.service.PhotoService;
+import com.snipzer.contact.util.CacheUtil;
 import com.google.gson.Gson;
-import com.google.common.base.Predicate;
-import com.google.common.collect.Iterables;
-import com.zenika.zencontact.util.StringUtil;
+import com.snipzer.contact.util.StringUtil;
 
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
@@ -17,8 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 // With @WebServlet annotation the webapp/WEB-INF/web.xml is no longer required.
-@WebServlet(name = "UserResourceWithId", value = "/api/v0/users/*")
-public class UserResourceWithId extends HttpServlet {
+@WebServlet(name = "UserWithIdController", value = "/api/v0/users/*")
+public class UserWithIdController extends HttpServlet {
 
   private Long getId(HttpServletRequest request) {
     String pathInfo = request.getPathInfo(); // /{id}
@@ -47,7 +44,7 @@ public class UserResourceWithId extends HttpServlet {
   @Override
   public void doPut(HttpServletRequest request, HttpServletResponse response)
       throws IOException {
-    CacheService.getINSTANCE().delete(StringUtil.CONTACTS_CACHE_KEY);
+    CacheUtil.getINSTANCE().delete(StringUtil.CONTACTS_CACHE_KEY);
     Long id = getId(request);
     if(id == null) {
         response.setStatus(404);
@@ -62,7 +59,7 @@ public class UserResourceWithId extends HttpServlet {
   @Override
   public void doDelete(HttpServletRequest request, HttpServletResponse response)
       throws IOException {
-    CacheService.getINSTANCE().delete(StringUtil.CONTACTS_CACHE_KEY);
+    CacheUtil.getINSTANCE().delete(StringUtil.CONTACTS_CACHE_KEY);
     Long id = getId(request);
     if(id == null) {
         response.setStatus(404);

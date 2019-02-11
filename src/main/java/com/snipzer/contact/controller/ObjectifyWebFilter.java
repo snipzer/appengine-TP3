@@ -1,4 +1,4 @@
-package com.zenika.zencontact.resource;
+package com.snipzer.contact.controller;
 
 import javax.servlet.annotation.WebFilter;
 import com.googlecode.objectify.ObjectifyFilter;

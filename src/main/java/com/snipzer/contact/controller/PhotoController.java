@@ -1,10 +1,8 @@
-package com.zenika.zencontact.resource;
+package com.snipzer.contact.controller;
 
-import com.zenika.zencontact.domain.Message;
-import com.zenika.zencontact.domain.blob.PhotoService;
+import com.snipzer.contact.service.PhotoService;
 import com.google.appengine.api.blobstore.BlobKey;
-import org.joda.time.DateTime;
-import com.google.gson.Gson;
+
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -14,10 +12,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 // With @WebServlet annotation the webapp/WEB-INF/web.xml is no longer required.
-@WebServlet(name = "PhotoResource", value = "/api/v0/photo/*")
-public class PhotoResource extends HttpServlet {
+@WebServlet(name = "PhotoController", value = "/api/v0/photo/*")
+public class PhotoController extends HttpServlet {
 
-    private static final Logger LOG = Logger.getLogger(PhotoResource.class
+    private static final Logger LOG = Logger.getLogger(PhotoController.class
             .getName());
 
     @Override

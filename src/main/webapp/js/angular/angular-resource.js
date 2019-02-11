@@ -15,13 +15,13 @@ var $resourceMinErr = angular.$$minErr('$resource');
  * # ngResource
  *
  * The `ngResource` module provides interaction support with RESTful services
- * via the $resource service.
+ * via the $controller service.
  *
- * {@installModule resource}
+ * {@installModule controller}
  *
  * <div doc-module-components="ngResource"></div>
  *
- * See {@link ngResource.$resource `$resource`} for usage.
+ * See {@link ngResource.$resource `$controller`} for usage.
  */
 
 /**
@@ -30,10 +30,10 @@ var $resourceMinErr = angular.$$minErr('$resource');
  * @requires $http
  *
  * @description
- * A factory which creates a resource object that lets you interact with
+ * A factory which creates a controller object that lets you interact with
  * [RESTful](http://en.wikipedia.org/wiki/Representational_State_Transfer) server-side data sources.
  *
- * The returned resource object has action methods which provide high-level behaviors without
+ * The returned controller object has action methods which provide high-level behaviors without
  * the need to interact with the low level {@link ng.$http $http} service.
  *
  * Requires the {@link ngResource `ngResource`} module to be installed.
@@ -43,8 +43,8 @@ var $resourceMinErr = angular.$$minErr('$resource');
  *   `http://example.com:8080/api`), it will be respected.
  *
  *   If you are using a url with a suffix, just add the suffix, like this:
- *   `$resource('http://example.com/resource.json')` or `$resource('http://example.com/:id.json')`
- *   or even `$resource('http://example.com/resource/:resource_id.:format')`
+ *   `$controller('http://example.com/resource.json')` or `$controller('http://example.com/:id.json')`
+ *   or even `$controller('http://example.com/resource/:resource_id.:format')`
  *   If the parameter before the suffix is empty, :resource_id in this case, then the `/.` will be
  *   collapsed down to a single `.`.  If you need this sequence to appear and not collapse then you
  *   can escape it with `/\.`.
@@ -63,7 +63,7 @@ var $resourceMinErr = angular.$$minErr('$resource');
  *   the data object (useful for non-GET operations).
  *
  * @param {Object.<Object>=} actions Hash with declaration of custom action that should extend the
- *   default set of resource actions. The declaration should be created in the format of {@link
+ *   default set of controller actions. The declaration should be created in the format of {@link
  *   ng.$http#usage_parameters $http.config}:
  *
  *       {action1: {method:?, params:?, isArray:?, headers:?, ...},
@@ -73,14 +73,14 @@ var $resourceMinErr = angular.$$minErr('$resource');
  *   Where:
  *
  *   - **`action`** – {string} – The name of action. This name becomes the name of the method on
- *     your resource object.
+ *     your controller object.
  *   - **`method`** – {string} – HTTP request method. Valid methods are: `GET`, `POST`, `PUT`,
  *     `DELETE`, and `JSONP`.
  *   - **`params`** – {Object=} – Optional set of pre-bound parameters for this action. If any of
  *     the parameter value is a function, it will be executed every time when a param value needs to
  *     be obtained for a request (unless the param was overridden).
  *   - **`url`** – {string} – action specific `url` override. The url templating is supported just
- *     like for the resource-level urls.
+ *     like for the controller-level urls.
  *   - **`isArray`** – {boolean=} – If true then the returned object for this action is an array,
  *     see `returns` section.
  *   - **`transformRequest`** –
@@ -106,7 +106,7 @@ var $resourceMinErr = angular.$$minErr('$resource');
  *     `response` and `responseError`. Both `response` and `responseError` interceptors get called
  *     with `http response` object. See {@link ng.$http $http interceptors}.
  *
- * @returns {Object} A resource "class" object with methods for the default set of resource actions
+ * @returns {Object} A controller "class" object with methods for the default set of controller actions
  *   optionally extended with custom `actions`. The default set contains these actions:
  *
  *       { 'get':    {method:'GET'},
@@ -117,21 +117,21 @@ var $resourceMinErr = angular.$$minErr('$resource');
  *
  *   Calling these methods invoke an {@link ng.$http} with the specified http method,
  *   destination and parameters. When the data is returned from the server then the object is an
- *   instance of the resource class. The actions `save`, `remove` and `delete` are available on it
+ *   instance of the controller class. The actions `save`, `remove` and `delete` are available on it
  *   as  methods with the `$` prefix. This allows you to easily perform CRUD operations (create,
  *   read, update, delete) on server-side data like this:
  *   <pre>
-        var User = $resource('/user/:userId', {userId:'@id'});
+        var User = $controller('/user/:userId', {userId:'@id'});
         var user = User.get({userId:123}, function() {
           user.abc = true;
           user.$save();
         });
      </pre>
  *
- *   It is important to realize that invoking a $resource object method immediately returns an
+ *   It is important to realize that invoking a $controller object method immediately returns an
  *   empty reference (object or array depending on `isArray`). Once the data is returned from the
  *   server the existing reference is populated with the actual data. This is a useful trick since
- *   usually the resource is assigned to a model which is then rendered by the view. Having an empty
+ *   usually the controller is assigned to a model which is then rendered by the view. Having an empty
  *   object results in no rendering, once the data arrives from the server then the object is
  *   populated with the data and the view automatically re-renders itself showing the new data. This
  *   means that in most case one never has to write a callback function for the action methods.
@@ -154,13 +154,13 @@ var $resourceMinErr = angular.$$minErr('$resource');
  *   - `$promise`: the {@link ng.$q promise} of the original server interaction that created this
  *     instance or collection.
  *
- *     On success, the promise is resolved with the same resource instance or collection object,
+ *     On success, the promise is resolved with the same controller instance or collection object,
  *     updated with data from server. This makes it easy to use in
  *     {@link ngRoute.$routeProvider resolve section of $routeProvider.when()} to defer view
- *     rendering until the resource(s) are loaded.
+ *     rendering until the controller(s) are loaded.
  *
  *     On failure, the promise is resolved with the {@link ng.$http http response} object, without
- *     the `resource` property.
+ *     the `controller` property.
  *
  *   - `$resolved`: `true` after first server interaction is completed (either with success or
  *      rejection), `false` before that. Knowing if the Resource has been resolved is useful in
@@ -168,11 +168,11 @@ var $resourceMinErr = angular.$$minErr('$resource');
  *
  * @example
  *
- * # Credit card resource
+ * # Credit card controller
  *
  * <pre>
      // Define CreditCard class
-     var CreditCard = $resource('/user/:userId/card/:cardId',
+     var CreditCard = $controller('/user/:userId/card/:cardId',
       {userId:123, cardId:'@id'}, {
        charge: {method:'POST', params:{charge:true}}
       });
@@ -205,17 +205,17 @@ var $resourceMinErr = angular.$$minErr('$resource');
      expect(newCard.id).toEqual(789);
  * </pre>
  *
- * The object returned from this function execution is a resource "class" which has "static" method
+ * The object returned from this function execution is a controller "class" which has "static" method
  * for each action in the definition.
  *
  * Calling these methods invoke `$http` on the `url` template with the given `method`, `params` and
  * `headers`.
- * When the data is returned from the server then the object is an instance of the resource type and
+ * When the data is returned from the server then the object is an instance of the controller type and
  * all of the non-GET methods are available with `$` prefix. This allows you to easily support CRUD
  * operations (create, read, update, delete) on server-side data.
 
    <pre>
-     var User = $resource('/user/:userId', {userId:'@id'});
+     var User = $controller('/user/:userId', {userId:'@id'});
      var user = User.get({userId:123}, function() {
        user.abc = true;
        user.$save();
@@ -227,7 +227,7 @@ var $resourceMinErr = angular.$$minErr('$resource');
  * could rewrite the above example and get access to http headers as:
  *
    <pre>
-     var User = $resource('/user/:userId', {userId:'@id'});
+     var User = $controller('/user/:userId', {userId:'@id'});
      User.get({userId:123}, function(u, getResponseHeaders){
        u.abc = true;
        u.$save(function(u, putResponseHeaders) {
@@ -239,13 +239,13 @@ var $resourceMinErr = angular.$$minErr('$resource');
 
  * # Buzz client
 
-   Let's look at what a buzz client created with the `$resource` service looks like:
+   Let's look at what a buzz client created with the `$controller` service looks like:
     <doc:example>
     <doc:source jsfiddle="false">
     <script>
-     function BuzzController($resource) {
+     function BuzzController($controller) {
        this.userId = 'googlebuzz';
-       this.Activity = $resource(
+       this.Activity = $controller(
          'https://www.googleapis.com/buzz/v1/activities/:userId/:visibility/:activityId/:comments',
          {alt:'json', callback:'JSON_CALLBACK'},
          {
@@ -263,7 +263,7 @@ var $resourceMinErr = angular.$$minErr('$resource');
          activity.replies = this.Activity.replies({userId:this.userId, activityId:activity.id});
        }
      };
-     BuzzController.$inject = ['$resource'];
+     BuzzController.$inject = ['$controller'];
     </script>
 
     <div ng-controller="BuzzController">
@@ -503,7 +503,7 @@ angular.module('ngResource', ['ng']).
               // Need to convert action.isArray to boolean in case it is undefined
               // jshint -W018
               if ( angular.isArray(data) !== (!!action.isArray) ) {
-                throw $resourceMinErr('badcfg', 'Error in resource configuration. Expected ' +
+                throw $resourceMinErr('badcfg', 'Error in controller configuration. Expected ' +
                   'response to contain an {0} but got an {1}',
                   action.isArray?'array':'object', angular.isArray(data)?'array':'object');
               }

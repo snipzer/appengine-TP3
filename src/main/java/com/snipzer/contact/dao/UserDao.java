@@ -1,8 +1,8 @@
-package com.zenika.zencontact.persistence;
+package com.snipzer.contact.dao;
 
 import java.util.List;
 
-import com.zenika.zencontact.domain.User;
+import com.snipzer.contact.entity.User;
 
 public interface UserDao {
 	long save(User contact);

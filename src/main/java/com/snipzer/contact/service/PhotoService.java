@@ -1,35 +1,35 @@
-package com.zenika.zencontact.domain.blob;
+package com.snipzer.contact.service;
 
 import com.google.appengine.api.blobstore.*;
-import com.zenika.zencontact.domain.User;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.zenika.zencontact.persistence.objectify.UserDaoObjectify;
+import com.snipzer.contact.dao.UserDaoObjectify;
+import com.snipzer.contact.entity.User;
+
 import java.io.IOException;
 import java.util.*;
 
 public class PhotoService {
 
-    private static PhotoService INSTANCE =
-            new PhotoService();
+    private static PhotoService INSTANCE = new PhotoService();
+
     public static PhotoService getInstance() {
         return INSTANCE;
     }
-    public BlobstoreService blobstoreService =
-            BlobstoreServiceFactory.getBlobstoreService();
+
+    private BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
 
     public void prepareUploadURL(User contact) {
-        String uploadURL = blobstoreService
-                .createUploadUrl("/api/v0/photo/"+contact.id);
+        String uploadURL = blobstoreService.createUploadUrl("/api/v0/photo/"+contact.id);
         contact.uploadURL(uploadURL);
     }
 
     public void prepareDownloadURL(User contact) {
         BlobKey photoKey = contact.photoKey;
         if (photoKey != null) {
-            String url = "/api/v0/photo/" + contact.id + "/"
-                    + photoKey.getKeyString();
+            String url = "/api/v0/photo/" + contact.id + "/" + photoKey.getKeyString();
             contact.downloadURL(url);
         }
     }
@@ -50,11 +50,9 @@ public class PhotoService {
 
     public void serve(BlobKey blobKey, HttpServletResponse resp)
             throws IOException {
-        BlobInfoFactory blobInfoFactory = new BlobInfoFactory(
-                DatastoreServiceFactory.getDatastoreService());
+        BlobInfoFactory blobInfoFactory = new BlobInfoFactory(DatastoreServiceFactory.getDatastoreService());
         BlobInfo blobInfo = blobInfoFactory.loadBlobInfo(blobKey);
-        resp.setHeader("Content-Disposition", "attachment; filename="
-                + blobInfo.getFilename());
+        resp.setHeader("Content-Disposition", "attachment; filename=" + blobInfo.getFilename());
         blobstoreService.serve(blobKey, resp);
     }
 

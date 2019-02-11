@@ -1,13 +1,10 @@
-package com.zenika.zencontact.persistence.datastore;
+package com.snipzer.contact.dao;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.datastore.*;
-import com.zenika.zencontact.domain.User;
-import com.zenika.zencontact.persistence.UserDao;
+import com.snipzer.contact.entity.User;
 
 public class UserDaoDatastore implements UserDao {
 

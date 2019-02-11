@@ -1,4 +1,4 @@
-package com.zenika.zencontact.domain;
+package com.snipzer.contact.entity;
 
 import com.google.appengine.api.blobstore.BlobKey;
 import com.googlecode.objectify.annotation.*;

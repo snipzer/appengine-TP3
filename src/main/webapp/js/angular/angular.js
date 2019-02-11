@@ -4193,7 +4193,7 @@ function Browser(window, document, $log, $sniffer) {
    * 
    * @description
    * Returns current <base href>
-   * (always relative - without domain)
+   * (always relative - without service)
    *
    * @returns {string=} current <base href>
    */
@@ -4245,7 +4245,7 @@ function Browser(window, document, $log, $sniffer) {
 
           // per http://www.ietf.org/rfc/rfc2109.txt browser must allow at minimum:
           // - 300 cookies
-          // - 20 cookies per unique domain
+          // - 20 cookies per unique service
           // - 4096 bytes per cookie
           if (cookieLength > 4096) {
             $log.warn("Cookie '"+ name +
@@ -7702,7 +7702,7 @@ var XHR = window.XMLHttpRequest || function() {
  * XMLHttpRequest object or JSONP and deals with browser incompatibilities.
  *
  * You should never need to use this service directly, instead use the higher-level abstractions:
- * {@link ng.$http $http} or {@link ngResource.$resource $resource}.
+ * {@link ng.$http $http} or {@link ngResource.$resource $controller}.
  *
  * During testing this implementation is swapped with {@link ngMock.$httpBackend mock
  * $httpBackend} which can be trained with responses.
@@ -11857,7 +11857,7 @@ var SCE_CONTEXTS = {
   HTML: 'html',
   CSS: 'css',
   URL: 'url',
-  // RESOURCE_URL is a subtype of URL used in contexts where a privileged resource is sourced from a
+  // RESOURCE_URL is a subtype of URL used in contexts where a privileged controller is sourced from a
   // url.  (e.g. ng-include, script src, templateUrl)
   RESOURCE_URL: 'resourceUrl',
   JS: 'js'
@@ -11966,9 +11966,9 @@ function adjustMatchers(matchers) {
  * <pre class="prettyprint">
  *    angular.module('myApp', []).config(function($sceDelegateProvider) {
  *      $sceDelegateProvider.resourceUrlWhitelist([
- *        // Allow same origin resource loads.
+ *        // Allow same origin controller loads.
  *        'self',
- *        // Allow loading from our assets domain.  Notice the difference between * and **.
+ *        // Allow loading from our assets service.  Notice the difference between * and **.
  *        'http://srv*.assets.example.com/**']);
  *
  *      // The blacklist overrides the whitelist so the open redirect here is blocked.
@@ -12003,10 +12003,10 @@ function $SceDelegateProvider() {
    * @return {Array} the currently set whitelist array.
    *
    * The **default value** when no whitelist has been explicitly set is `['self']` allowing only
-   * same origin resource requests.
+   * same origin controller requests.
    *
    * @description
-   * Sets/Gets the whitelist of trusted resource URLs.
+   * Sets/Gets the whitelist of trusted controller URLs.
    */
   this.resourceUrlWhitelist = function (value) {
     if (arguments.length) {
@@ -12029,8 +12029,8 @@ function $SceDelegateProvider() {
    *     allowed in this array.
    *
    *     The typical usage for the blacklist is to **block
-   *     [open redirects](http://cwe.mitre.org/data/definitions/601.html)** served by your domain as
-   *     these would otherwise be trusted but actually return content from the redirected domain.
+   *     [open redirects](http://cwe.mitre.org/data/definitions/601.html)** served by your service as
+   *     these would otherwise be trusted but actually return content from the redirected service.
    *
    *     Finally, **the blacklist overrides the whitelist** and has the final say.
    *
@@ -12040,7 +12040,7 @@ function $SceDelegateProvider() {
    * is no blacklist.)
    *
    * @description
-   * Sets/Gets the blacklist of trusted resource URLs.
+   * Sets/Gets the blacklist of trusted controller URLs.
    */
 
   this.resourceUrlBlacklist = function (value) {
@@ -12217,7 +12217,7 @@ function $SceDelegateProvider() {
           return maybeTrusted;
         } else {
           throw $sceMinErr('insecurl',
-              'Blocked loading resource from url not allowed by $sceDelegate policy.  URL: {0}',
+              'Blocked loading controller from url not allowed by $sceDelegate policy.  URL: {0}',
               maybeTrusted.toString());
         }
       } else if (type === SCE_CONTEXTS.HTML) {
