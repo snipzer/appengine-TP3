@@ -15,26 +15,23 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "PhotoController", value = "/api/v0/photo/*")
 public class PhotoController extends HttpServlet {
 
-    private static final Logger LOG = Logger.getLogger(PhotoController.class
-            .getName());
+    private static final Logger LOG = Logger.getLogger(PhotoController.class.getName());
 
     @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws IOException {
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String pathInfo = request.getPathInfo(); // /{id}/{key}
         String[] pathParts = pathInfo.split("/");
         if(pathParts.length == 0) {
             response.setStatus(404);
             return;
         }
-        Long id = Long.valueOf(pathParts[1]);
+//        Long id = Long.valueOf(pathParts[1]);
         String blobkey = pathParts[2];
         PhotoService.getInstance().serve(new BlobKey(blobkey), response);
     }
 
     @Override
-    public void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws IOException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String pathInfo = request.getPathInfo(); // /{id}
         String[] pathParts = pathInfo.split("/");
         if(pathParts.length == 0) {

@@ -18,17 +18,16 @@ import javax.servlet.http.HttpServletResponse;
 public class UserWithIdController extends HttpServlet {
 
   private Long getId(HttpServletRequest request) {
-    String pathInfo = request.getPathInfo(); // /{id}
+    String pathInfo = request.getPathInfo();
     String[] pathParts = pathInfo.split("/");
     if(pathParts.length == 0) {
         return null;
     }
-    return Long.valueOf(pathParts[1]); // {id}
+    return Long.valueOf(pathParts[1]);
   }
 
   @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response)
-      throws IOException {
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     Long id = getId(request);
     if(id == null) {
         response.setStatus(404);
@@ -37,13 +36,12 @@ public class UserWithIdController extends HttpServlet {
     User user = UserDaoObjectify.getInstance().get(id);
     PhotoService.getInstance().prepareUploadURL(user);
     PhotoService.getInstance().prepareDownloadURL(user);
-    response.setContentType("application/json; charset=utf-8");
+    response.setContentType(StringUtil.APPLICATION_JSON_CHARSET_UTF_8);
     response.getWriter().println(new Gson().toJson(user));
   }
 
   @Override
-  public void doPut(HttpServletRequest request, HttpServletResponse response)
-      throws IOException {
+  public void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {
     CacheUtil.getINSTANCE().delete(StringUtil.CONTACTS_CACHE_KEY);
     Long id = getId(request);
     if(id == null) {
@@ -52,13 +50,12 @@ public class UserWithIdController extends HttpServlet {
     }
     User user = new Gson().fromJson(request.getReader(), User.class);
     UserDaoObjectify.getInstance().save(user);
-    response.setContentType("application/json; charset=utf-8");
+    response.setContentType(StringUtil.APPLICATION_JSON_CHARSET_UTF_8);
     response.getWriter().println(new Gson().toJson(user));
   }
 
   @Override
-  public void doDelete(HttpServletRequest request, HttpServletResponse response)
-      throws IOException {
+  public void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
     CacheUtil.getINSTANCE().delete(StringUtil.CONTACTS_CACHE_KEY);
     Long id = getId(request);
     if(id == null) {

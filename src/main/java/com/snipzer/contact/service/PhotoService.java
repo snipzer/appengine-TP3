@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.snipzer.contact.dao.UserDaoObjectify;
 import com.snipzer.contact.entity.User;
+import com.snipzer.contact.util.StringUtil;
 
 import java.io.IOException;
 import java.util.*;
@@ -22,14 +23,14 @@ public class PhotoService {
     private BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
 
     public void prepareUploadURL(User contact) {
-        String uploadURL = blobstoreService.createUploadUrl("/api/v0/photo/"+contact.id);
+        String uploadURL = blobstoreService.createUploadUrl(StringUtil.API_V0_PHOTO +contact.id);
         contact.uploadURL(uploadURL);
     }
 
     public void prepareDownloadURL(User contact) {
         BlobKey photoKey = contact.photoKey;
         if (photoKey != null) {
-            String url = "/api/v0/photo/" + contact.id + "/" + photoKey.getKeyString();
+            String url = StringUtil.API_V0_PHOTO  + contact.id + StringUtil.SLASH + photoKey.getKeyString();
             contact.downloadURL(url);
         }
     }
@@ -52,7 +53,7 @@ public class PhotoService {
             throws IOException {
         BlobInfoFactory blobInfoFactory = new BlobInfoFactory(DatastoreServiceFactory.getDatastoreService());
         BlobInfo blobInfo = blobInfoFactory.loadBlobInfo(blobKey);
-        resp.setHeader("Content-Disposition", "attachment; filename=" + blobInfo.getFilename());
+        resp.setHeader(StringUtil.CONTENT_DISPOSITION, StringUtil.ATTACHMENT_FILENAME + blobInfo.getFilename());
         blobstoreService.serve(blobKey, resp);
     }
 
