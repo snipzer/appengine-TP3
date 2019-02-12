@@ -3,6 +3,7 @@ package com.snipzer.contact.controller;
 import com.snipzer.contact.service.PhotoService;
 import com.google.appengine.api.blobstore.BlobKey;
 import com.snipzer.contact.util.StringUtil;
+import com.snipzer.contact.util.UrlUtil;
 
 import java.io.IOException;
 import java.util.logging.Level;
@@ -13,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 // With @WebServlet annotation the webapp/WEB-INF/web.xml is no longer required.
-@WebServlet(name = "PhotoController", value = "/api/v0/photo/*")
+@WebServlet(name = UrlUtil.PHOTO, value = UrlUtil.PHOTO_URL)
 public class PhotoController extends HttpServlet {
 
     private static final Logger LOG = Logger.getLogger(PhotoController.class.getName());

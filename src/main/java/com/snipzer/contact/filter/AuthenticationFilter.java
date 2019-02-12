@@ -2,6 +2,7 @@ package com.snipzer.contact.filter;
 
 import com.snipzer.contact.service.AuthenticationService;
 import com.snipzer.contact.util.StringUtil;
+import com.snipzer.contact.util.UrlUtil;
 
 import java.io.IOException;
 import javax.servlet.Filter;
@@ -16,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-@WebFilter(urlPatterns = {"api/v0/users/*"})
+@WebFilter(urlPatterns = {UrlUtil.USERID_URL})
 public class AuthenticationFilter implements Filter {
 
     private static final Logger LOG = Logger.getLogger(AuthenticationFilter.class.getName());

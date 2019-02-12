@@ -2,6 +2,7 @@ package com.snipzer.contact.controller;
 
 import com.snipzer.contact.entity.Message;
 import com.snipzer.contact.util.StringUtil;
+import com.snipzer.contact.util.UrlUtil;
 import org.joda.time.DateTime;
 import com.google.gson.Gson;
 import java.io.IOException;
@@ -11,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 // With @WebServlet annotation the webapp/WEB-INF/web.xml is no longer required.
-@WebServlet(name = "HelloController", value = "/api/message")
+@WebServlet(name = UrlUtil.HELLO, value = UrlUtil.HELLO_URL)
 public class HelloController extends HttpServlet {
 
   @Override

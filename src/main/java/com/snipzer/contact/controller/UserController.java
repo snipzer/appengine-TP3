@@ -4,6 +4,7 @@ import com.google.appengine.api.memcache.Expiration;
 import com.google.appengine.api.memcache.MemcacheService;
 import com.snipzer.contact.dao.UserDaoObjectify;
 import com.snipzer.contact.entity.User;
+import com.snipzer.contact.util.UrlUtil;
 import com.snipzer.contact.util.CacheUtil;
 import com.google.gson.Gson;
 import com.snipzer.contact.util.StringUtil;
@@ -16,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 // With @WebServlet annotation the webapp/WEB-INF/web.xml is no longer required.
-@WebServlet(name = "UserController", value = "/api/v0/users")
+@WebServlet(name = UrlUtil.USER, value = UrlUtil.USER_URL)
 public class UserController extends HttpServlet {
 
   @Override
