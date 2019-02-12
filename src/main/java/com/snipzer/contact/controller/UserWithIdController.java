@@ -42,7 +42,7 @@ public class UserWithIdController extends HttpServlet {
 
   @Override
   public void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    CacheUtil.getINSTANCE().delete(StringUtil.CONTACTS_CACHE_KEY);
+    CacheUtil.getInstance().delete(StringUtil.CONTACTS_CACHE_KEY);
     Long id = getId(request);
     if(id == null) {
         response.setStatus(404);
@@ -56,7 +56,7 @@ public class UserWithIdController extends HttpServlet {
 
   @Override
   public void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    CacheUtil.getINSTANCE().delete(StringUtil.CONTACTS_CACHE_KEY);
+    CacheUtil.getInstance().delete(StringUtil.CONTACTS_CACHE_KEY);
     Long id = getId(request);
     if(id == null) {
         response.setStatus(404);

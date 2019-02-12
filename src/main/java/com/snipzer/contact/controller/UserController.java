@@ -22,10 +22,10 @@ public class UserController extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response)
       throws IOException {
-    List<User> contacts = (List<User>) CacheUtil.getINSTANCE().get(StringUtil.CONTACTS_CACHE_KEY);
+    List<User> contacts = (List<User>) CacheUtil.getInstance().get(StringUtil.CONTACTS_CACHE_KEY);
     if (contacts == null) {
       contacts = UserDaoObjectify.getInstance().getAll();
-      CacheUtil.getINSTANCE().put(StringUtil.CONTACTS_CACHE_KEY, contacts, Expiration.byDeltaSeconds(240),
+      CacheUtil.getInstance().put(StringUtil.CONTACTS_CACHE_KEY, contacts, Expiration.byDeltaSeconds(240),
               MemcacheService.SetPolicy. ADD_ONLY_IF_NOT_PRESENT);
     }
     response.setContentType(StringUtil.APPLICATION_JSON_CHARSET_UTF_8);
@@ -35,7 +35,7 @@ public class UserController extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response)
       throws IOException {
-    CacheUtil.getINSTANCE().delete(StringUtil.CONTACTS_CACHE_KEY);
+    CacheUtil.getInstance().delete(StringUtil.CONTACTS_CACHE_KEY);
     User user = new Gson().fromJson(request.getReader(), User.class);
     user.id(UserDaoObjectify.getInstance().save(user));
     response.setContentType(StringUtil.APPLICATION_JSON_CHARSET_UTF_8);

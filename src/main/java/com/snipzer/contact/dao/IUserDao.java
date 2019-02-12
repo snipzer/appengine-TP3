@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.snipzer.contact.entity.User;
 
-public interface UserDao {
+public interface IUserDao {
 	long save(User contact);
 	void delete(Long id);
 	User get(Long id);

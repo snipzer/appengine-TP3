@@ -6,7 +6,7 @@ import com.google.appengine.api.memcache.MemcacheServiceFactory;
 public class CacheUtil {
     private static MemcacheService INSTANCE = MemcacheServiceFactory.getMemcacheService();
 
-    public static MemcacheService getINSTANCE() {
+    public static MemcacheService getInstance() {
         return INSTANCE;
     }
 }

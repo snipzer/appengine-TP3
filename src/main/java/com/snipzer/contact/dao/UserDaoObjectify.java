@@ -5,7 +5,7 @@ import com.snipzer.contact.entity.User;
 
 import java.util.List;
 
-public class UserDaoObjectify implements UserDao {
+public class UserDaoObjectify implements IUserDao {
 
     private static UserDaoObjectify INSTANCE = new UserDaoObjectify();
 

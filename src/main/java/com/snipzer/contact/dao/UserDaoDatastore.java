@@ -6,36 +6,31 @@ import java.util.List;
 import com.google.appengine.api.datastore.*;
 import com.snipzer.contact.entity.User;
 
-public class UserDaoDatastore implements UserDao {
+public class UserDaoDatastore implements IUserDao {
 
-    private static UserDaoDatastore INSTANCE =
-        new UserDaoDatastore();
+    private static UserDaoDatastore INSTANCE = new UserDaoDatastore();
 
     public static UserDaoDatastore getInstance() {
         return INSTANCE;
     }
 
-    public DatastoreService datastore = 
-        DatastoreServiceFactory.getDatastoreService();
+    private DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
     public long save(User contact) {
-        // je créé l'entité
-        Entity e = new Entity("User");
+        Entity entity = new Entity("User");
         if (contact.id != null) {
-            // en cas d'édition
-            Key k = KeyFactory.createKey("User", contact.id);
+            Key key = KeyFactory.createKey("User", contact.id);
             try {
-                e = datastore.get(k);
-            } catch(EntityNotFoundException e1) {}
+                entity = datastore.get(key);
+            } catch(EntityNotFoundException enf) {
+                System.out.println(enf.getMessage());
+            }
         }
-        // on met les valeurs
-        e.setProperty("firstName", contact.firstName);
-        e.setProperty("lastName", contact.lastName);
-        e.setProperty("email", contact.email);
-        e.setProperty("notes", contact.notes);
-
-        //sauvegarder
-        Key key = datastore.put(e);
+        entity.setProperty("firstName", contact.firstName);
+        entity.setProperty("lastName", contact.lastName);
+        entity.setProperty("email", contact.email);
+        entity.setProperty("notes", contact.notes);
+        Key key = datastore.put(entity);
         return key.getId();
     }
 
@@ -45,17 +40,19 @@ public class UserDaoDatastore implements UserDao {
     }
 
 	public User get(Long id) {
-        Entity e = null;
+        Entity entity = null;
         try {
-            e = datastore.get(KeyFactory.createKey("User", id));
+            entity = datastore.get(KeyFactory.createKey("User", id));
         }
-        catch(EntityNotFoundException exc) {}
+        catch(EntityNotFoundException exc) {
+            System.out.println(exc.getMessage());
+        }
         return User.create()
-            .id(e.getKey().getId())
-            .firstName((String) e.getProperty("firstName"))
-            .lastName((String) e.getProperty("lastName"))
-            .email((String) e.getProperty("email"))
-            .notes((String) e.getProperty("notes"));
+            .id(entity.getKey().getId())
+            .firstName((String) entity.getProperty("firstName"))
+            .lastName((String) entity.getProperty("lastName"))
+            .email((String) entity.getProperty("email"))
+            .notes((String) entity.getProperty("notes"));
     }
 	public List<User> getAll() {
         List<User> contacts = new ArrayList<>();
@@ -64,15 +61,14 @@ public class UserDaoDatastore implements UserDao {
             .addProjection(new PropertyProjection("lastName", String.class))
             .addProjection(new PropertyProjection("email", String.class))
             .addProjection(new PropertyProjection("notes", String.class));
-
         PreparedQuery pq = datastore.prepare(q);
         for (Entity e : pq.asIterable()) {
             contacts.add(User.create()
-            .id(e.getKey().getId())
-            .firstName((String) e.getProperty("firstName"))
-            .lastName((String) e.getProperty("lastName"))
-            .email((String) e.getProperty("email"))
-            .notes((String) e.getProperty("notes")));
+                .id(e.getKey().getId())
+                .firstName((String) e.getProperty("firstName"))
+                .lastName((String) e.getProperty("lastName"))
+                .email((String) e.getProperty("email"))
+                .notes((String) e.getProperty("notes")));
         }
         return contacts;
     }

@@ -2,6 +2,7 @@ package com.snipzer.contact.controller;
 
 import com.snipzer.contact.service.PhotoService;
 import com.google.appengine.api.blobstore.BlobKey;
+import com.snipzer.contact.util.StringUtil;
 
 import java.io.IOException;
 import java.util.logging.Level;
@@ -19,8 +20,8 @@ public class PhotoController extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String pathInfo = request.getPathInfo(); // /{id}/{key}
-        String[] pathParts = pathInfo.split("/");
+        String pathInfo = request.getPathInfo(); // {id}/{key}
+        String[] pathParts = pathInfo.split(StringUtil.SLASH);
         if(pathParts.length == 0) {
             response.setStatus(404);
             return;
@@ -33,16 +34,16 @@ public class PhotoController extends HttpServlet {
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String pathInfo = request.getPathInfo(); // /{id}
-        String[] pathParts = pathInfo.split("/");
+        String[] pathParts = pathInfo.split(StringUtil.SLASH);
         if(pathParts.length == 0) {
             response.setStatus(404);
             return;
         }
-        LOG.log(Level.INFO, "pathParts " + pathParts);
+        LOG.log(Level.INFO, StringUtil.PATH_PARTS + StringUtil.SPACE + pathParts);
         Long id = Long.valueOf(pathParts[1]);
         PhotoService.getInstance().updatePhoto(id, request);
-        response.setContentType("text/plain");
-        response.getWriter().println("ok");
+        response.setContentType(StringUtil.TEXT_PLAIN);
+        response.getWriter().println(StringUtil.OK);
     }
 
 }

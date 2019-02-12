@@ -14,4 +14,10 @@ public class StringUtil {
     public static final String EDIT = "/#/edit/";
     public static final String DELETE = "DELETE";
     public static final String FILTRE_D_AUTHENTIFICATION = "Filtre d'authentification";
+    public static final String TEXT_PLAIN = "text/plain";
+    public static final String OK = "ok";
+    public static final String PATH_PARTS = "pathParts";
+    public static final String SPACE = " ";
+    public static final String WHO = "who";
+    public static final String HH_MM_SS = "HH:mm:ss";
 }
