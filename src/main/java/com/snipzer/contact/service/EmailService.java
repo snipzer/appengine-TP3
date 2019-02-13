@@ -23,14 +23,12 @@ public class EmailService {
         Session session = Session.getDefaultInstance(properties, null);
         try{
             MimeMessage message = new MimeMessage(session, request.getInputStream());
-            LOG.warning("Subject:" + message.getSubject());
-
+            LOG.warning("Subject: " + message.getSubject());
             Multipart multipart = (Multipart) message.getContent();
             BodyPart part = multipart.getBodyPart(0);
-            LOG.warning("Body:"+ (String) part.getContent());
-
+            LOG.warning("Body: "+ part.getContent());
             for(Address adresse: message.getFrom()) {
-                LOG.warning(adresse.toString());
+                LOG.warning("From: "+adresse.toString());
             }
         }catch(Exception e) {
             LOG.warning(e.getMessage());
