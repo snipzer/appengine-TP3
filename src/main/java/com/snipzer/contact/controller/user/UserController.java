@@ -4,12 +4,14 @@ import com.google.appengine.api.memcache.Expiration;
 import com.google.appengine.api.memcache.MemcacheService;
 import com.snipzer.contact.dao.UserDaoObjectify;
 import com.snipzer.contact.entity.User;
+import com.snipzer.contact.service.PartnerBirthdateService;
 import com.snipzer.contact.util.UrlUtil;
 import com.snipzer.contact.util.CacheUtil;
 import com.google.gson.Gson;
 import com.snipzer.contact.util.StringUtil;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -36,9 +38,17 @@ public class UserController extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response)
       throws IOException {
-    CacheUtil.getInstance().delete(StringUtil.CONTACTS_CACHE_KEY);
     User user = new Gson().fromJson(request.getReader(), User.class);
+    String birthdate = PartnerBirthdateService.getInstance().findBirthdate(user.firstName, user.lastName);
+    if(birthdate != null) {
+      try{
+        user.birthdate(new SimpleDateFormat(StringUtil.YYYY_MM_DD).parse(birthdate));
+      } catch(Exception e) {
+        System.out.println(e.getMessage());
+      }
+    }
     user.id(UserDaoObjectify.getInstance().save(user));
+    CacheUtil.getInstance().delete(StringUtil.CONTACTS_CACHE_KEY);
     response.setContentType(StringUtil.APPLICATION_JSON_CHARSET_UTF_8);
     response.setStatus(201);
     response.getWriter().println(new Gson().toJson(user));

@@ -14,10 +14,10 @@ public class EmailService {
     private static Logger LOG = Logger.getLogger(EmailService.class.getName());
 
     private static EmailService INSTANCE = new EmailService();
-
     public static EmailService getInstance() {
         return INSTANCE;
     }
+    private EmailService() {}
 
     public void logEmail(HttpServletRequest request) {
         Properties properties = new Properties();

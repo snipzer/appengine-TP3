@@ -23,4 +23,5 @@ public class StringUtil {
     public static final String ADMIN = "admin";
     public static final String EMAIL_APPLICATION = "contact@epsi-20181212-loicarif.appspotmail.com";
     public static final String SNIP_APP = "Snip App";
+    public static final String YYYY_MM_DD = "yyyy-MM-DD";
 }

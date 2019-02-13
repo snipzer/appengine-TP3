@@ -15,10 +15,10 @@ import java.util.*;
 public class PhotoService {
 
     private static PhotoService INSTANCE = new PhotoService();
-
     public static PhotoService getInstance() {
         return INSTANCE;
     }
+    private PhotoService() {}
 
     private BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
 

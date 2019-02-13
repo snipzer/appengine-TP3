@@ -5,10 +5,10 @@ import com.google.appengine.api.users.*;
 public class AuthenticationService {
 
     private static AuthenticationService INSTANCE = new AuthenticationService();
-
     public static AuthenticationService getInstance() {
         return INSTANCE;
     }
+    private AuthenticationService() {}
 
     private UserService userService = UserServiceFactory.getUserService();
 
