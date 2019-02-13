@@ -21,4 +21,6 @@ public class StringUtil {
     public static final String WHO = "who";
     public static final String HH_MM_SS = "HH:mm:ss";
     public static final String ADMIN = "admin";
+    public static final String EMAIL_APPLICATION = "contact@epsi-20181212-loicarif.appspotmail.com";
+    public static final String SNIP_APP = "Snip App";
 }

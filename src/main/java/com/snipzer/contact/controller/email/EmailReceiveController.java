@@ -1,4 +1,4 @@
-package com.snipzer.contact.controller;
+package com.snipzer.contact.controller.email;
 
 import com.snipzer.contact.service.EmailService;
 import com.snipzer.contact.util.StringUtil;
@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = UrlUtil.EMAIL, value = UrlUtil.EMAIL_URL)
+@WebServlet(name = UrlUtil.EMAIL_RECEIVE, value = UrlUtil.EMAIL_RECEIVE_URL)
 @ServletSecurity(@HttpConstraint(rolesAllowed = {StringUtil.ADMIN}))
 public class EmailReceiveController extends HttpServlet {
 

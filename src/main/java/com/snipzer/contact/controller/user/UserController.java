@@ -1,4 +1,4 @@
-package com.snipzer.contact.controller;
+package com.snipzer.contact.controller.user;
 
 import com.google.appengine.api.memcache.Expiration;
 import com.google.appengine.api.memcache.MemcacheService;

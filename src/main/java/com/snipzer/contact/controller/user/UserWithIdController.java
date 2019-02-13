@@ -1,4 +1,4 @@
-package com.snipzer.contact.controller;
+package com.snipzer.contact.controller.user;
 
 import com.snipzer.contact.dao.UserDaoObjectify;
 import com.snipzer.contact.entity.User;
