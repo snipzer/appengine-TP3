@@ -20,4 +20,5 @@ public class StringUtil {
     public static final String SPACE = " ";
     public static final String WHO = "who";
     public static final String HH_MM_SS = "HH:mm:ss";
+    public static final String ADMIN = "admin";
 }

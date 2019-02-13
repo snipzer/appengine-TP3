@@ -13,5 +13,8 @@ public class UrlUtil {
     public static final String HELLO = "HelloController";
     public static final String HELLO_URL = "/api/message";
 
+    public static final String EMAIL = "EmailReceiveController";
+    public static final String EMAIL_URL = "/_ah/mail/*";
+
     public static final String ALL_URL = "/*";
 }
